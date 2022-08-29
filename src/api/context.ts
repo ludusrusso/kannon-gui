@@ -1,7 +1,7 @@
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { getConfigs } from "env-ts-conf";
-import { NewKannonClient } from "../services/kannon";
+import { NewKannonClient, NewKannonStatsV1Client } from "../services/kannon";
 
 const kannonConfig = getConfigs({
   host: {
@@ -15,6 +15,7 @@ const kannonConfig = getConfigs({
 });
 
 const kannon = NewKannonClient(kannonConfig);
+const kannonStats = NewKannonStatsV1Client(kannonConfig);
 
 export const createContext = async ({
   req,
@@ -22,6 +23,7 @@ export const createContext = async ({
 }: trpcNext.CreateNextContextOptions) => {
   return {
     kannon,
+    kannonStats,
     req,
     res,
   };

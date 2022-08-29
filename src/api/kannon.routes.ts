@@ -62,4 +62,19 @@ export const kubeRoutes = createRouter()
     async resolve({ ctx, input }) {
       return ctx.kannon.createDomain({ domain: input.domain });
     },
+  })
+  .query("domainStats", {
+    input: z.object({
+      domain: z.string(),
+      skip: z.number().int(),
+      take: z.number().int(),
+      fromDate: z.date(),
+      toDate: z.date(),
+    }),
+
+    async resolve({ ctx, input }) {
+      return ctx.kannonStats.getStats({
+        ...input,
+      });
+    },
   });
