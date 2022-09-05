@@ -13,7 +13,7 @@ import {
 } from "@grpc/grpc-js";
 import _m0 from "protobufjs/minimal";
 
-export const protobufPackage = "kannon";
+export const protobufPackage = "pkg.kannon.admin.apiv1";
 
 export interface GetDomainsReq {}
 
@@ -1102,7 +1102,7 @@ export const GetTemplatesRes = {
 export type ApiService = typeof ApiService;
 export const ApiService = {
   getDomains: {
-    path: "/kannon.Api/GetDomains",
+    path: "/pkg.kannon.admin.apiv1.Api/GetDomains",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: GetDomainsReq) =>
@@ -1113,7 +1113,7 @@ export const ApiService = {
     responseDeserialize: (value: Buffer) => GetDomainsResponse.decode(value),
   },
   createDomain: {
-    path: "/kannon.Api/CreateDomain",
+    path: "/pkg.kannon.admin.apiv1.Api/CreateDomain",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: CreateDomainRequest) =>
@@ -1124,7 +1124,7 @@ export const ApiService = {
     responseDeserialize: (value: Buffer) => Domain.decode(value),
   },
   regenerateDomainKey: {
-    path: "/kannon.Api/RegenerateDomainKey",
+    path: "/pkg.kannon.admin.apiv1.Api/RegenerateDomainKey",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: RegenerateDomainKeyRequest) =>
@@ -1136,7 +1136,7 @@ export const ApiService = {
     responseDeserialize: (value: Buffer) => Domain.decode(value),
   },
   createTemplate: {
-    path: "/kannon.Api/CreateTemplate",
+    path: "/pkg.kannon.admin.apiv1.Api/CreateTemplate",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: CreateTemplateReq) =>
@@ -1147,7 +1147,7 @@ export const ApiService = {
     responseDeserialize: (value: Buffer) => CreateTemplateRes.decode(value),
   },
   updateTemplate: {
-    path: "/kannon.Api/UpdateTemplate",
+    path: "/pkg.kannon.admin.apiv1.Api/UpdateTemplate",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: UpdateTemplateReq) =>
@@ -1158,7 +1158,7 @@ export const ApiService = {
     responseDeserialize: (value: Buffer) => UpdateTemplateRes.decode(value),
   },
   deleteTemplate: {
-    path: "/kannon.Api/DeleteTemplate",
+    path: "/pkg.kannon.admin.apiv1.Api/DeleteTemplate",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: DeleteTemplateReq) =>
@@ -1169,7 +1169,7 @@ export const ApiService = {
     responseDeserialize: (value: Buffer) => DeleteTemplateRes.decode(value),
   },
   getTemplate: {
-    path: "/kannon.Api/GetTemplate",
+    path: "/pkg.kannon.admin.apiv1.Api/GetTemplate",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: GetTemplateReq) =>
@@ -1180,7 +1180,7 @@ export const ApiService = {
     responseDeserialize: (value: Buffer) => GetTemplateRes.decode(value),
   },
   getTemplates: {
-    path: "/kannon.Api/GetTemplates",
+    path: "/pkg.kannon.admin.apiv1.Api/GetTemplates",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: GetTemplatesReq) =>
@@ -1328,7 +1328,7 @@ export interface ApiClient extends Client {
 
 export const ApiClient = makeGenericClientConstructor(
   ApiService,
-  "kannon.Api"
+  "pkg.kannon.admin.apiv1.Api"
 ) as unknown as {
   new (
     address: string,

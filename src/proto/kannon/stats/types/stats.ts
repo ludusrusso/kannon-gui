@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Timestamp } from "../../google/protobuf/timestamp";
+import { Timestamp } from "../../../google/protobuf/timestamp";
 import _m0 from "protobufjs/minimal";
 
 export const protobufPackage = "pkg.kannon.stats.types";
@@ -20,9 +20,15 @@ export interface StatsData {
   bounced: StatsDataBounced | undefined;
   opened: StatsDataOpened | undefined;
   clicked: StatsDataClicked | undefined;
+  rejected: StatsDataRejected | undefined;
+  error: StatsDataError | undefined;
 }
 
 export interface StatsDataAccepted {}
+
+export interface StatsDataRejected {
+  reason: string;
+}
 
 export interface StatsDataDelivered {}
 
@@ -30,6 +36,11 @@ export interface StatsDataFailed {}
 
 export interface StatsDataBounced {
   permanent: boolean;
+  code: number;
+  msg: string;
+}
+
+export interface StatsDataError {
   code: number;
   msg: string;
 }
@@ -166,6 +177,8 @@ function createBaseStatsData(): StatsData {
     bounced: undefined,
     opened: undefined,
     clicked: undefined,
+    rejected: undefined,
+    error: undefined,
   };
 }
 
@@ -204,6 +217,15 @@ export const StatsData = {
         writer.uint32(50).fork()
       ).ldelim();
     }
+    if (message.rejected !== undefined) {
+      StatsDataRejected.encode(
+        message.rejected,
+        writer.uint32(58).fork()
+      ).ldelim();
+    }
+    if (message.error !== undefined) {
+      StatsDataError.encode(message.error, writer.uint32(66).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -235,6 +257,12 @@ export const StatsData = {
         case 6:
           message.clicked = StatsDataClicked.decode(reader, reader.uint32());
           break;
+        case 7:
+          message.rejected = StatsDataRejected.decode(reader, reader.uint32());
+          break;
+        case 8:
+          message.error = StatsDataError.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -262,6 +290,12 @@ export const StatsData = {
         : undefined,
       clicked: isSet(object.clicked)
         ? StatsDataClicked.fromJSON(object.clicked)
+        : undefined,
+      rejected: isSet(object.rejected)
+        ? StatsDataRejected.fromJSON(object.rejected)
+        : undefined,
+      error: isSet(object.error)
+        ? StatsDataError.fromJSON(object.error)
         : undefined,
     };
   },
@@ -291,6 +325,14 @@ export const StatsData = {
     message.clicked !== undefined &&
       (obj.clicked = message.clicked
         ? StatsDataClicked.toJSON(message.clicked)
+        : undefined);
+    message.rejected !== undefined &&
+      (obj.rejected = message.rejected
+        ? StatsDataRejected.toJSON(message.rejected)
+        : undefined);
+    message.error !== undefined &&
+      (obj.error = message.error
+        ? StatsDataError.toJSON(message.error)
         : undefined);
     return obj;
   },
@@ -322,6 +364,14 @@ export const StatsData = {
     message.clicked =
       object.clicked !== undefined && object.clicked !== null
         ? StatsDataClicked.fromPartial(object.clicked)
+        : undefined;
+    message.rejected =
+      object.rejected !== undefined && object.rejected !== null
+        ? StatsDataRejected.fromPartial(object.rejected)
+        : undefined;
+    message.error =
+      object.error !== undefined && object.error !== null
+        ? StatsDataError.fromPartial(object.error)
         : undefined;
     return message;
   },
@@ -367,6 +417,60 @@ export const StatsDataAccepted = {
     _: I
   ): StatsDataAccepted {
     const message = createBaseStatsDataAccepted();
+    return message;
+  },
+};
+
+function createBaseStatsDataRejected(): StatsDataRejected {
+  return { reason: "" };
+}
+
+export const StatsDataRejected = {
+  encode(
+    message: StatsDataRejected,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
+    if (message.reason !== "") {
+      writer.uint32(10).string(message.reason);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): StatsDataRejected {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStatsDataRejected();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.reason = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StatsDataRejected {
+    return {
+      reason: isSet(object.reason) ? String(object.reason) : "",
+    };
+  },
+
+  toJSON(message: StatsDataRejected): unknown {
+    const obj: any = {};
+    message.reason !== undefined && (obj.reason = message.reason);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<StatsDataRejected>, I>>(
+    object: I
+  ): StatsDataRejected {
+    const message = createBaseStatsDataRejected();
+    message.reason = object.reason ?? "";
     return message;
   },
 };
@@ -525,6 +629,69 @@ export const StatsDataBounced = {
   ): StatsDataBounced {
     const message = createBaseStatsDataBounced();
     message.permanent = object.permanent ?? false;
+    message.code = object.code ?? 0;
+    message.msg = object.msg ?? "";
+    return message;
+  },
+};
+
+function createBaseStatsDataError(): StatsDataError {
+  return { code: 0, msg: "" };
+}
+
+export const StatsDataError = {
+  encode(
+    message: StatsDataError,
+    writer: _m0.Writer = _m0.Writer.create()
+  ): _m0.Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).uint32(message.code);
+    }
+    if (message.msg !== "") {
+      writer.uint32(18).string(message.msg);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): StatsDataError {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStatsDataError();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.code = reader.uint32();
+          break;
+        case 2:
+          message.msg = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StatsDataError {
+    return {
+      code: isSet(object.code) ? Number(object.code) : 0,
+      msg: isSet(object.msg) ? String(object.msg) : "",
+    };
+  },
+
+  toJSON(message: StatsDataError): unknown {
+    const obj: any = {};
+    message.code !== undefined && (obj.code = Math.round(message.code));
+    message.msg !== undefined && (obj.msg = message.msg);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<StatsDataError>, I>>(
+    object: I
+  ): StatsDataError {
+    const message = createBaseStatsDataError();
     message.code = object.code ?? 0;
     message.msg = object.msg ?? "";
     return message;

@@ -1,7 +1,7 @@
 syntax = "proto3";
-option go_package = "generated/pb";
+option go_package = "github.com/ludusrusso/kannon/proto/kannon/admin/apiv1";
 
-package kannon;
+package pkg.kannon.admin.apiv1;
 
 service Api {
   rpc GetDomains(GetDomainsReq) returns (GetDomainsResponse) {}

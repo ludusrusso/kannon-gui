@@ -70,6 +70,7 @@ export const kubeRoutes = createRouter()
       take: z.number().int(),
       fromDate: z.date(),
       toDate: z.date(),
+      type: z.string().array().default(["delivered"]),
     }),
 
     async resolve({ ctx, input }) {

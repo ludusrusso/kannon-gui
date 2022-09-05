@@ -3,7 +3,7 @@ import "google/protobuf/timestamp.proto";
 
 package pkg.kannon.stats.types;
 
-option go_package = "github.com/ludusrusso/kannon/generated/pb/stats/types";
+option go_package = "github.com/ludusrusso/kannon/proto/kannon/stats/types";
 
 message Stats {
   string message_id = 1;
@@ -22,10 +22,16 @@ message StatsData {
     StatsDataBounced bounced = 4;
     StatsDataOpened opened = 5;
     StatsDataClicked clicked = 6;
+    StatsDataRejected rejected = 7;
+    StatsDataError error = 8;
   }
 }
 
 message StatsDataAccepted {}
+
+message StatsDataRejected {
+  string reason = 1;
+}
 
 message StatsDataDelivered {}
 
@@ -35,6 +41,11 @@ message StatsDataBounced {
   bool permanent = 1;
   uint32 code = 2;
   string msg = 3;
+}
+
+message StatsDataError {
+  uint32 code = 1;
+  string msg = 2;
 }
 
 message StatsDataOpened {

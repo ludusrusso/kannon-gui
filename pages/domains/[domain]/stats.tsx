@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Nav } from "../../../components/navbar";
+import { Stats } from "../../../src/proto/kannon/stats/types/stats";
 import { trpc } from "../../../utils/trpc";
+import days from "dayjs";
 
 const DomainStatsPage = () => {
   const router = useRouter();
@@ -23,7 +25,7 @@ const DomainStats = ({ domain }: { domain: string }) => {
     "kube.domainStats",
     {
       domain,
-      fromDate: datePlusDays(now, -100),
+      fromDate: datePlusDays(now, -1),
       skip: 0,
       take: 100,
       toDate: now,
@@ -42,7 +44,7 @@ const DomainStats = ({ domain }: { domain: string }) => {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto m-auto max-w-screen-2xl">
       <table className="table table-compact w-full">
         <thead>
           <tr>
@@ -56,9 +58,9 @@ const DomainStats = ({ domain }: { domain: string }) => {
           {q.data.stats.map((s, id) => {
             return (
               <tr key={id}>
-                <th>{typeMap[s.type] || s.type}</th>
+                <th>{statasName(s)}</th>
                 <td>{s.email}</td>
-                <td>{s.timestamp?.toISOString()}</td>
+                <td>{days(s.timestamp).format("YYYY-MM-DD HH:mm:ss")}</td>
                 <td>{s.messageId}</td>
               </tr>
             );
@@ -73,8 +75,27 @@ function datePlusDays(date: Date, days: number) {
   return new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
 }
 
-const typeMap: { [k: string]: string } = {
-  opened: "👀 Opened",
-  clicked: "🔗 Clicked",
-  delivered: "✅ Delivered",
-};
+function statasName(stat: Stats): string {
+  if (stat.data?.accepted) {
+    return "✅ Accepted";
+  }
+  if (stat.data?.rejected) {
+    return "🛑 Rejected";
+  }
+  if (stat.data?.delivered) {
+    return "🚀 Delivered";
+  }
+  if (stat.data?.error) {
+    return "😱 Error";
+  }
+  if (stat.data?.bounced) {
+    return "💥 Bounced";
+  }
+  if (stat.data?.clicked) {
+    return "🔗 Clicked";
+  }
+  if (stat.data?.opened) {
+    return "🔗 Opened";
+  }
+  return "🤷‍♀️ unknown";
+}

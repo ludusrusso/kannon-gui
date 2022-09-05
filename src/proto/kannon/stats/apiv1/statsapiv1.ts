@@ -11,7 +11,7 @@ import {
   CallOptions,
   ServiceError,
 } from "@grpc/grpc-js";
-import { Timestamp } from "../../google/protobuf/timestamp";
+import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Stats } from "../types/stats";
 import _m0 from "protobufjs/minimal";
 
