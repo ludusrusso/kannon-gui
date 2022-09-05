@@ -5,7 +5,7 @@ import { Fragment, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { z } from "zod";
 import { zodValidate } from "../utils/zod-validate";
-import { Domain, GetDomainsResponse } from "../src/proto/kannon/api";
+import { Domain } from "../src/proto/kannon/admin/apiv1/adminapiv1";
 import Link from "next/link";
 
 export default function Home() {
@@ -20,9 +20,7 @@ export default function Home() {
 const DomainsList = () => {
   const { data, isLoading } = trpc.useQuery(["kube.getDomains"]);
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
-  const [currentDomain, setCurrentDomain] = useState<
-    GetDomainsResponse["domains"][number] | null
-  >(null);
+  const [currentDomain, setCurrentDomain] = useState<Domain | null>(null);
 
   if (isLoading) {
     return <p>loading...</p>;
@@ -80,7 +78,7 @@ const DomainInfoModal = ({
   domain,
 }: {
   closeModal: () => void;
-  domain: GetDomainsResponse["domains"][number];
+  domain: Domain;
 }) => {
   return (
     <>

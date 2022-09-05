@@ -2,7 +2,9 @@ import { useRef } from "react";
 
 import dynamic from "next/dynamic";
 
-const EmailEditor = dynamic(() => import("react-email-editor"), { ssr: false });
+const EmailEditor = dynamic(() => import("react-email-editor"), {
+  ssr: false,
+}) as any;
 
 const EmailPage = () => {
   const emailEditorRef = useRef<any>(null);

@@ -6,7 +6,7 @@ import { Field, Form } from "react-final-form";
 import { z } from "zod";
 import { Nav } from "../../../components/navbar";
 import { CreateTemplateSchema } from "../../../src/api/schemas";
-import type { Domain } from "../../../src/proto/kannon/api";
+import type { Domain } from "../../../src/proto/kannon/admin/apiv1/adminapiv1";
 import { trpc } from "../../../utils/trpc";
 import { zodValidate } from "../../../utils/zod-validate";
 
