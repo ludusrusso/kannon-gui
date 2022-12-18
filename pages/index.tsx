@@ -42,7 +42,7 @@ const DomainsList = () => {
         <table className="table w-full">
           <thead>
             <tr>
-              <th>Domain</th>
+              <th>TItle</th>
               <th>Api KEY</th>
               <th className="text-right">
                 <button

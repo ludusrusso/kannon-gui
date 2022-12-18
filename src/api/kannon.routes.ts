@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createRouter } from "./router";
-import { CreateTemplateSchema } from "./schemas";
+import { TemplateSchema } from "./schemas";
 
 export const kubeRoutes = createRouter()
   .query("getDomain", {
@@ -39,12 +39,26 @@ export const kubeRoutes = createRouter()
     },
   })
   .mutation("createDomainTemplate", {
-    input: CreateTemplateSchema,
+    input: TemplateSchema,
     async resolve({ ctx, input }) {
       const res = await ctx.kannon.createTemplate({
         domain: input.domain,
         title: input.title,
         html: input.html,
+      });
+      return res;
+    },
+  })
+  .mutation("updateDomainTemplate", {
+    input: z.object({
+      template: TemplateSchema,
+      id: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      const res = await ctx.kannon.updateTemplate({
+        templateId: input.id,
+        title: input.template.title,
+        html: input.template.html,
       });
       return res;
     },

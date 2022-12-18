@@ -5,7 +5,7 @@ import { Fragment, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { z } from "zod";
 import { Nav } from "../../../components/navbar";
-import { CreateTemplateSchema } from "../../../src/api/schemas";
+import { TemplateSchema } from "../../../src/api/schemas";
 import type { Domain } from "../../../src/proto/kannon/admin/apiv1/adminapiv1";
 import { trpc } from "../../../utils/trpc";
 import { zodValidate } from "../../../utils/zod-validate";
@@ -106,8 +106,8 @@ const TemplatesList = ({ domain }: { domain: string }) => {
         <table className="table w-full">
           <thead>
             <tr>
-              <th>Domain</th>
-              <th>Api KEY</th>
+              <th>title</th>
+              <th>id</th>
               <th className="text-right">
                 <button
                   className="btn btn-circle btn-sm"
@@ -219,7 +219,7 @@ const CreateTemplatenForm = ({
 }) => {
   const createTemplate = trpc.useMutation(["kube.createDomainTemplate"]);
   return (
-    <Form<z.TypeOf<typeof CreateTemplateSchema>>
+    <Form<z.TypeOf<typeof TemplateSchema>>
       initialValues={{
         domain: domain,
       }}
@@ -229,7 +229,7 @@ const CreateTemplatenForm = ({
         });
         closeModal();
       }}
-      validate={zodValidate(CreateTemplateSchema)}
+      validate={zodValidate(TemplateSchema)}
       render={({ handleSubmit, invalid }) => {
         return (
           <form onSubmit={handleSubmit}>
